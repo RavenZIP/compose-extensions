@@ -1,0 +1,100 @@
+package com.github.ravenzip.compose.berezaui
+
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.github.ravenzip.berezaUI.core.components.IconButton
+import com.github.ravenzip.berezaUI.core.components.RichButton
+import com.github.ravenzip.compose.shared.style.IconStyle
+
+@Composable
+fun IconButton(
+    onClick: () -> Unit,
+    icon: Painter,
+    iconDescription: String? = null,
+    iconStyle: IconStyle = IconStyle.Default,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    shape: Shape = RoundedCornerShape(14.dp),
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    interactionSource: MutableInteractionSource? = null,
+    contentPadding: PaddingValues = PaddingValues(10.dp),
+) {
+    val color = iconStyle.color ?: colors.contentColor
+    val contentColor = if (enabled) color else colors.disabledContentColor
+
+    IconButton(
+        onClick = onClick,
+        icon = {
+            Icon(
+                painter = icon,
+                contentDescription = iconDescription,
+                modifier = Modifier.size(iconStyle.size),
+                tint = contentColor,
+            )
+        },
+        modifier = modifier,
+        enabled = enabled,
+        shape = shape,
+        interactionSource = interactionSource,
+        contentPadding = contentPadding,
+    )
+}
+
+// TODO: Разработать дефолтные стили
+@Composable
+fun RichButton(
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    label: String,
+    labelStyle: TextStyle =
+        TextStyle.Default.merge(fontSize = 18.sp, fontWeight = FontWeight.Medium),
+    description: String,
+    descriptionStyle: TextStyle = MaterialTheme.typography.bodyMedium,
+    icon: Painter,
+    iconDescription: String? = null,
+    iconStyle: IconStyle = IconStyle.Default,
+    enabled: Boolean = true,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    shape: Shape = RoundedCornerShape(14.dp),
+    contentPadding: PaddingValues = PaddingValues(18.dp),
+) {
+    val labelColor =
+        if (labelStyle.color != Color.Unspecified) labelStyle.color else colors.contentColor
+    val descriptionColor =
+        if (descriptionStyle.color != Color.Unspecified) descriptionStyle.color
+        else colors.contentColor
+
+    val mergedLabelStyle = labelStyle.merge(color = labelColor)
+    val mergedDescriptionStyle = descriptionStyle.merge(color = descriptionColor)
+
+    RichButton(
+        onClick = onClick,
+        modifier = modifier,
+        label = { Text(text = label, style = mergedLabelStyle) },
+        description = { Text(text = description, style = mergedDescriptionStyle) },
+        icon = {
+            Icon(
+                painter = icon,
+                contentDescription = iconDescription,
+                modifier = Modifier.size(iconStyle.size),
+                tint = iconStyle.color ?: colors.contentColor,
+            )
+        },
+        enabled = enabled,
+        colors = colors,
+        shape = shape,
+        contentPadding = contentPadding,
+    )
+}

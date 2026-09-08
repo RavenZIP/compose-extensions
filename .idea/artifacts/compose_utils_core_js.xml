@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="compose-utils-core-js">
+    <output-path>$PROJECT_DIR$/compose-utils-core/build/libs</output-path>
+    <root id="archive" name="compose-utils-core-js.jar">
+      <element id="module-output" name="compose-utils.compose-utils-core.jsMain" />
+    </root>
+  </artifact>
+</component>
